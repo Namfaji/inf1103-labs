@@ -6,6 +6,8 @@ print("===========================")
 username = input("Enter Username: ")
 age = int(input("Enter Age: "))
 category = input("Enter Content Category: ")
+bio = input("Blogger info: ")
+followers = input("Followers Count: ")
 
 print("\nInstagram Profile")
 print("=====================")
@@ -16,8 +18,7 @@ print("Category:", category)
 if age>40 and category == "fun":
     print("You are old what is fun for you??")
 
-bio = input("Blogger info: ")
-followers = 100
+
 
 print("\nInstagram Profile")
 print("=====================")
