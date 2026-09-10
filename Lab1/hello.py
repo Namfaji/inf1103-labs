@@ -7,7 +7,7 @@ username = input("Enter Username: ")
 age = int(input("Enter Age: "))
 category = input("Enter Content Category: ")
 bio = input("Blogger info: ")
-followers = input("Followers Count: ")
+followers = int(input("Followers: "))
 
 print("\nInstagram Profile")
 print("=====================")
