@@ -21,4 +21,4 @@ if int(inventory) == 500:
     print("Total inventory exceeds 500 units")
 else:
     print("Total Units Processed "+str(inventory))
-print("Number of Failed/Rejected Entries "+str(fail))
+print("Number of Failed/Rejected Entries "+str(fail)) 
