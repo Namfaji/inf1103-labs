@@ -14,7 +14,7 @@ while inventory <= 500:
             print("Rejected negative numbers, positive numbers only")
             fail+=1
         else:
-            inventory = int(inventory1)
+            inventory += int(inventory1)
     print(inventory)
 
 if int(inventory) == 500:
