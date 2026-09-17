@@ -11,6 +11,12 @@ def get_valid_input():
     else:
         print("Rejected,please provide positive numbers only")
 
+def calculate_tax(amount):
+    tax_rate = 0.10
+    tax_amount = amount * tax_rate
+    print("Tax Amount: " + str(tax_amount))
+    return tax_amount
+
 def process_delivery(current_inventory, new_inventory):
     inventory = current_inventory
     if inventory <= 500:
@@ -21,12 +27,6 @@ def process_delivery(current_inventory, new_inventory):
         print("Total inventory exceeds 500 units")
         return inventory
 
-def calculate_tax(amount):
-    tax_rate = 0.10
-    tax_amount = amount * tax_rate
-    return tax_amount
-
-
 def generate_report(total_inventory, failed_entries):
     print("Total Units Processed " + str(total_inventory))
     print("Number of Failed/Rejected Entries " + str(failed_entries))
@@ -34,8 +34,6 @@ def generate_report(total_inventory, failed_entries):
 
 while True:
     quantity = get_valid_input()
-    print(type(quantity))
-    print(quantity)
     if quantity == "quit":
         generate_report(inventory, fail)
         break
@@ -44,6 +42,7 @@ while True:
     else:
         inventory = process_delivery(inventory, quantity)
         calculate_tax(quantity)
+
 
         
 
