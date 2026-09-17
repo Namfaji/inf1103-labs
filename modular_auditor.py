@@ -1,33 +1,15 @@
 inventory = 0
 fail = 0
-while True:
-    input = get_valid_input()
-    if input == "quit":
-        generate_report(inventory, fail)
-        break
-    elif input.isdigit() == True:
-        process_delivery(inventory, int(input))
-    else:
-        fail += 1
-
-
-
-if int(inventory) == 500:
-    print("Total inventory exceeds 500 units")
-else:
-    print("Total Units Processed "+str(inventory))
-print("Number of Failed/Rejected Entries "+str(fail)) 
 
 def get_valid_input():
     print("type 'quit' to quit")
     user_input = input("Please enter a stock quantity: ")
     if user_input.lower() == "quit":
         return user_input.lower()
-    elif user_input.isdigit() and int(user_input) >= 0:
+    elif user_input.isdigit() and int(user_input) > 0:
         return int(user_input)
     else:
         print("Rejected,please provide positive numbers only")
-        fail += 1
 
 def process_delivery(current_inventory, new_inventory):
     inventory = current_inventory
@@ -48,3 +30,23 @@ def calculate_tax(amount):
 def generate_report(total_inventory, failed_entries):
     print("Total Units Processed " + str(total_inventory))
     print("Number of Failed/Rejected Entries " + str(failed_entries))
+
+
+while True:
+    quantity = get_valid_input()
+    print(type(quantity))
+    print(quantity)
+    if quantity == "quit":
+        generate_report(inventory, fail)
+        break
+    elif quantity is None:
+        fail += 1
+    else:
+        inventory = process_delivery(inventory, quantity)
+        calculate_tax(quantity)
+
+        
+
+
+
+
