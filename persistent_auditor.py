@@ -20,6 +20,14 @@ def load_inventory():
     return inventory, fail
 
 
+def save_inventory(history_tracking, inventory, fail):
+    file.write("Total Units Processed: " + str(inventory) + "\n")
+    file.write("Number of Failed/Rejected Entries: " + str(fail) + "\n")
+    file.write("History Tracking:\n")
+    for entry in history_tracking:
+        file.write(str(entry) + "\n")
+
+
 def get_valid_input():
     print("type 'quit' to quit")
     user_input = input("Please enter a stock quantity: ")
@@ -47,6 +55,7 @@ def process_delivery(current_inventory, new_inventory):
         return inventory
 
 def generate_report(history_tracking, total_inventory, failed_entries):
+    save_inventory(history_tracking, total_inventory, failed_entries)
     print("Total Units Processed " + str(total_inventory))
     print("Number of Failed/Rejected Entries " + str(failed_entries))
 
