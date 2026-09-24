@@ -5,6 +5,7 @@ import time
 inventory = 0
 fail = 0
 order_no = 0
+history_tracking = []
 file = open("inventory.txt", "r+")
 
 time=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
@@ -17,9 +18,6 @@ def load_inventory():
         elif line.startswith("Number of Failed/Rejected Entries"):
             fail = int(line.split(":")[1].strip())
     return inventory, fail
-
-
-
 
 
 def get_valid_input():
@@ -48,7 +46,7 @@ def process_delivery(current_inventory, new_inventory):
         print("Total inventory exceeds 500 units")
         return inventory
 
-def generate_report( total_inventory, failed_entries):
+def generate_report(history_tracking, total_inventory, failed_entries):
     print("Total Units Processed " + str(total_inventory))
     print("Number of Failed/Rejected Entries " + str(failed_entries))
 
@@ -56,13 +54,15 @@ print(load_inventory())
 while True:
     quantity = get_valid_input()
     if quantity == "quit":
-        generate_report(inventory, fail)
+        generate_report(history_tracking, inventory, fail)
         break
     elif quantity is None:
         fail += 1
     else:
+        order_no += 1
+        history_tracking.append((time, order_no, quantity, calculate_tax(quantity)))
+        print(history_tracking)
         inventory = process_delivery(inventory, quantity)
-        calculate_tax(quantity)
         
 
 
