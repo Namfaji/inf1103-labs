@@ -1,24 +1,28 @@
 
 import time
 
-
 inventory = 0
 fail = 0
+total_inventory = 0
 order_no = 0
+product_name = ["Wireless Mouse", "Keyboard", "USB Cable", "Laptop Stand"]
 history_tracking = []
-file = open("inventory.txt", "r+")
+file = open("INF1103-Labs/inventory.txt", "r+")
 
 time=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
 def load_inventory():
-    global inventory, fail
-    for line in file:
-        if line.startswith("Total Units Processed"):
-            inventory = int(line.split(":")[1].strip())
-        elif line.startswith("Number of Failed/Rejected Entries"):
-            fail = int(line.split(":")[1].strip())
-    return inventory, fail
+    global order_no, total_inventory
+    current_orders = ["Current Orders:"]
 
+    with open("INF1103-Labs/inventory.txt", "r") as orders_file:
+        for line in orders_file:
+            order_number, product, quantity = line.strip().split(",", 2)
+            current_orders.append(f"{order_number}, {product}, {quantity}")
+            order_no = int(order_number)
+            total_inventory += int(quantity)
+
+    return "\n".join(current_orders)
 
 def save_inventory(history_tracking, inventory, fail):
     file.write("Total Units Processed: " + str(inventory) + "\n")
@@ -27,16 +31,28 @@ def save_inventory(history_tracking, inventory, fail):
     for entry in history_tracking:
         file.write(str(entry) + "\n")
 
-
 def get_valid_input():
-    print("type 'quit' to quit")
-    user_input = input("Please enter a stock quantity: ")
-    if user_input.lower() == "quit":
-        return user_input.lower()
-    elif user_input.isdigit() and int(user_input) > 0:
-        return int(user_input)
-    else:
-        print("Rejected,please provide positive numbers only")
+    user_input_prod = input("Enter Product Name: ").strip()
+
+    if user_input_prod.lower() == "quit":
+        return "quit"
+
+    matched_product = None
+    for product in product_name:
+        if product.lower() == user_input_prod.lower():
+            matched_product = product
+            break
+
+    if matched_product is None:
+        print("Invalid product name")
+        return None
+
+    user_input = input("Enter Quantity: ").strip()
+    if user_input.isdigit() and int(user_input) > 0:
+        return matched_product, int(user_input)
+
+    print("Rejected, please provide a positive number")
+    return None
 
 def calculate_tax(amount):
     tax_rate = 0.10
@@ -61,17 +77,29 @@ def generate_report(history_tracking, total_inventory, failed_entries):
 
 print(load_inventory())
 while True:
-    quantity = get_valid_input()
-    if quantity == "quit":
-        generate_report(history_tracking, inventory, fail)
+    order = get_valid_input()
+    if order == "quit":
         break
-    elif quantity is None:
+    elif order is None:
         fail += 1
     else:
         order_no += 1
-        history_tracking.append((time, order_no, quantity, calculate_tax(quantity)))
-        print(history_tracking)
-        inventory = process_delivery(inventory, quantity)
+        product, quantity = order
+        with open("INF1103-Labs/inventory.txt", "a+") as orders_file:
+            orders_file.seek(0, 2)
+            if orders_file.tell() > 0:
+                orders_file.seek(orders_file.tell() - 1)
+                if orders_file.read(1) != "\n":
+                    orders_file.write("\n")
+            orders_file.write(f"{order_no},{product},{quantity}\n")
+        total_inventory += quantity
+
+        print("\nNew Order Added:")
+        print(f"{order_no},{product},{quantity}")
+        print("\nOrder successfully saved to inventory.txt")
+        print(f"Total Units Processed: {total_inventory}")
+        print(f"Number of Failed/Rejected Entries: {fail}")
+        break
         
 
 
