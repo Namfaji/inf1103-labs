@@ -4,7 +4,69 @@ from pathlib import Path
 
 INVENTORY_FILE = Path(__file__).resolve().with_name("inventory.json")
 inventory = []
+dictory = {}
 
+##=====================================================================================
+## Class Definitions
+
+class Product:
+    ##Variables for Product class
+    def __init__(self, product_id, name, price, stock):
+        self.__product_id = product_id
+        self.__name = name
+        self.__price = price
+        self.__stock = stock
+
+    ##Functions for Product class
+    def update_stock(self, quantity):
+        self.__stock = quantity
+
+    def display_information(self):
+        print(f"ID: {self.__product_id}")
+        print(f"Name: {self.__name}")
+        print(f"Price: ${self.__price:.2f}")
+        print(f"Stock: {self.__stock}")
+
+    def get_product_id(self):
+        return self.__product_id
+
+    def get_name(self):
+        return self.__name
+
+    def get_price(self):
+        return self.__price
+
+    def get_stock(self):
+        return self.__stock
+
+class Inventory:
+    ##Variables for Inventory class
+    def __init__(self):
+        self.__products = []
+
+    ##Functions for Inventory class
+    def add_product(self, product):
+        self.__products.append(product)
+
+    def search_product(self, product_id):
+        for product in self.__products:
+            if product.get_product_id().upper() == product_id.upper():
+                return product
+        return None
+
+    def display_all(self):
+        if not self.__products:
+            print("Inventory is empty.")
+            return
+
+        print("\nCurrent Inventory")
+        print("-" * 50)
+        for product in self.__products:
+            product.display_information()
+            print("-" * 50)
+
+##=====================================================================================
+print(dictory)
 def load_inventory():
     global inventory
 
