@@ -1,20 +1,34 @@
 [
-	{
-		"ProductID": "P001",
-		"Name": "Laptop",
-		"Price": 1200.00,
-		"Stock": 15
-	},
-	{
-		"ProductID": "P002",
-		"Name": "Mouse",
-		"Price": 25.50,
-		"Stock": 40
-	},
-	{
-		"ProductID": "P003",
-		"Name": "Keyboard",
-		"Price": 45.00,
-		"Stock": 25
-	}
+    {
+        "ProductID": "P001",
+        "Name": "Guitar",
+        "Price": 199.99,
+        "Stock": 5,
+        "Type": "physical",
+        "Weight": 3.5
+    },
+    {
+        "ProductID": "D001",
+        "Name": "Software",
+        "Price": 49.99,
+        "Stock": 20,
+        "Type": "digital",
+        "DownloadSize": 850
+    },
+    {
+        "ProductID": "P004",
+        "Name": "Desk Lamp",
+        "Price": 25.5,
+        "Stock": 10,
+        "Type": "physical",
+        "Weight": 1.2
+    },
+    {
+        "ProductID": "D002",
+        "Name": "Photo Editor",
+        "Price": 39.99,
+        "Stock": 15,
+        "Type": "digital",
+        "DownloadSize": 500.0
+    }
 ]
