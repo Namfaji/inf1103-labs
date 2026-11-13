@@ -1,0 +1,61 @@
+{
+    "Suppliers": [
+        {
+            "SupplierID": "S001",
+            "Name": "Northstar Supplies",
+            "ContactEmail": "contact@northstar.example"
+        },
+        {
+            "SupplierID": "S002",
+            "Name": "Digital Depot",
+            "ContactEmail": "support@digitaldepot.example"
+        }
+    ],
+    "Products": [
+        {
+            "ProductID": "P001",
+            "Name": "Guitar",
+            "Price": 199.99,
+            "Stock": 5,
+            "SupplierID": "S001",
+            "Type": "physical",
+            "Weight": 3.5
+        },
+        {
+            "ProductID": "D001",
+            "Name": "Software",
+            "Price": 49.99,
+            "Stock": 20,
+            "SupplierID": "S002",
+            "Type": "digital",
+            "DownloadSize": 850
+        },
+        {
+            "ProductID": "P004",
+            "Name": "Desk Lamp",
+            "Price": 25.5,
+            "Stock": 10,
+            "SupplierID": "S001",
+            "Type": "physical",
+            "Weight": 1.2
+        },
+        {
+            "ProductID": "D002",
+            "Name": "Photo Editor",
+            "Price": 39.99,
+            "Stock": 15,
+            "SupplierID": "S002",
+            "Type": "digital",
+            "DownloadSize": 500.0
+        },
+        {
+            "ProductID": "P002",
+            "Name": "Computer Table",
+            "Price": 700.0,
+            "Stock": 12,
+            "SupplierID": "S001",
+            "Type": "physical",
+            "Weight": 2.6
+        }
+    ]
+}

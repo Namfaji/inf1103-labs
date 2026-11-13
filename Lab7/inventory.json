@@ -30,5 +30,13 @@
         "Stock": 15,
         "Type": "digital",
         "DownloadSize": 500.0
+    },
+    {
+        "ProductID": "P002",
+        "Name": "Computer Table",
+        "Price": 700.0,
+        "Stock": 12,
+        "Type": "physical",
+        "Weight": 2.6
     }
 ]

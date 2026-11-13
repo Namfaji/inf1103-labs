@@ -1,0 +1,84 @@
+digraph Lab8 {
+    graph [rankdir=BT, splines=ortho, nodesep=0.9, ranksep=0.9, fontname="Helvetica", pad=0.3, dpi=200];
+    node  [shape=plain, fontname="Helvetica", fontsize=11];
+    edge  [fontname="Helvetica", fontsize=10];
+
+    Supplier [label=<
+<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#FFFFFF">
+<TR><TD BGCOLOR="#DDE7F3"><B>Supplier</B></TD></TR>
+<TR><TD ALIGN="LEFT" BALIGN="LEFT">- supplier_id: String<BR/>- name: String<BR/>- contact_email: String</TD></TR>
+<TR><TD ALIGN="LEFT" BALIGN="LEFT">+ get_supplier_id(): String<BR/>+ get_name(): String<BR/>+ get_contact_email(): String<BR/>+ display_information(): None</TD></TR>
+</TABLE>>];
+
+    Product [label=<
+<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#FFFFFF">
+<TR><TD BGCOLOR="#DDE7F3">«abstract»<BR/><I><B>Product</B></I></TD></TR>
+<TR><TD ALIGN="LEFT" BALIGN="LEFT">- product_id: String<BR/>- name: String<BR/>- price: Float<BR/>- stock: Integer<BR/>- supplier: Supplier</TD></TR>
+<TR><TD ALIGN="LEFT" BALIGN="LEFT">+ Product(product_id: String, name: String, price: Float,<BR/>    stock: Integer, supplier: Supplier)<BR/>+ update_stock(quantity: Integer): None<BR/>+ display_information(): None<BR/>+ get_product_id(): String<BR/>+ get_name(): String<BR/>+ get_price(): Float<BR/>+ get_stock(): Integer<BR/>+ get_supplier(): Supplier<BR/>+ to_dict(): Map&lt;String, Value&gt;<BR/><I>+ get_fulfilment_info(): String {abstract}</I></TD></TR>
+</TABLE>>];
+
+    CanBeShipped [label=<
+<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#FFFFFF">
+<TR><TD BGCOLOR="#EFE6F5">«interface»<BR/><I><B>CanBeShipped</B></I></TD></TR>
+<TR><TD ALIGN="LEFT" BALIGN="LEFT"><I>+ calculate_shipping_cost(): Float</I></TD></TR>
+</TABLE>>];
+
+    PhysicalProduct [label=<
+<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#FFFFFF">
+<TR><TD BGCOLOR="#DDE7F3"><B>PhysicalProduct</B></TD></TR>
+<TR><TD ALIGN="LEFT" BALIGN="LEFT">- weight: Float</TD></TR>
+<TR><TD ALIGN="LEFT" BALIGN="LEFT">+ display_information(): None<BR/>+ get_fulfilment_info(): String<BR/>+ get_weight(): Float<BR/>+ calculate_shipping_cost(): Float<BR/>+ to_dict(): Map&lt;String, Value&gt;</TD></TR>
+</TABLE>>];
+
+    DigitalProduct [label=<
+<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#FFFFFF">
+<TR><TD BGCOLOR="#DDE7F3"><B>DigitalProduct</B></TD></TR>
+<TR><TD ALIGN="LEFT" BALIGN="LEFT">- download_size: Float</TD></TR>
+<TR><TD ALIGN="LEFT" BALIGN="LEFT">+ display_information(): None<BR/>+ get_fulfilment_info(): String<BR/>+ get_download_size(): Float<BR/>+ to_dict(): Map&lt;String, Value&gt;</TD></TR>
+</TABLE>>];
+
+    Inventory [label=<
+<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#FFFFFF">
+<TR><TD BGCOLOR="#DDE7F3"><B>Inventory</B></TD></TR>
+<TR><TD ALIGN="LEFT" BALIGN="LEFT">- products: Product [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" BALIGN="LEFT">+ add_product(product: Product): None<BR/>+ remove_product(product_id: String): Boolean<BR/>+ find_product(product_id: String): Product [0..1]<BR/>+ get_products(): Product [0..*]<BR/>+ display_all(): None</TD></TR>
+</TABLE>>];
+
+    Order [label=<
+<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#FFFFFF">
+<TR><TD BGCOLOR="#DDE7F3"><B>Order</B></TD></TR>
+<TR><TD ALIGN="LEFT" BALIGN="LEFT">- order_id: String<BR/>- order_lines: OrderLine [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" BALIGN="LEFT">+ get_order_id(): String<BR/>+ add_order_line(product: Product, quantity: Integer): None<BR/>+ remove_order_line(product_id: String): Boolean<BR/>+ get_order_lines(): OrderLine [0..*]<BR/>+ calculate_total(): Float<BR/>+ display_order(): None</TD></TR>
+</TABLE>>];
+
+    OrderLine [label=<
+<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#FFFFFF">
+<TR><TD BGCOLOR="#DDE7F3"><B>OrderLine</B></TD></TR>
+<TR><TD ALIGN="LEFT" BALIGN="LEFT">- product: Product<BR/>- quantity: Integer</TD></TR>
+<TR><TD ALIGN="LEFT" BALIGN="LEFT">+ get_product(): Product<BR/>+ get_quantity(): Integer<BR/>+ calculate_subtotal(): Float<BR/>+ display_information(): None</TD></TR>
+</TABLE>>];
+
+    { rank=same; PhysicalProduct; DigitalProduct; }
+    { rank=same; Supplier; Product; }
+    { rank=same; OrderLine; Inventory; }
+    { rank=max; Order; }
+
+    // Inheritance (generalisation): hollow triangle at parent
+    PhysicalProduct -> Product [arrowhead=empty, arrowsize=1.3];
+    DigitalProduct  -> Product [arrowhead=empty, arrowsize=1.3];
+
+    // Realisation of interface: dashed, hollow triangle
+    PhysicalProduct -> CanBeShipped [arrowhead=empty, style=dashed, arrowsize=1.3];
+
+    // Association: Supplier 1 ---- 0..* Product
+    Supplier -> Product [dir=none, taillabel="1", headlabel="0..*", xlabel=" supplies ", constraint=false];
+
+    // Aggregation: Inventory (whole, hollow diamond) 0..1 <>---- 0..* Product
+    Inventory -> Product [dir=back, arrowtail=odiamond, arrowsize=1.4, taillabel="0..1", labelangle=-40, headlabel="0..*", xlabel=" contains ", labeldistance=2];
+
+    // Association: OrderLine 0..* ---- 1 Product
+    Product -> OrderLine [dir=none, taillabel="1", headlabel="0..*", xlabel=" refers to "];
+
+    // Composition: Order (whole, filled diamond) 1 <#>---- 0..* OrderLine
+    Order -> OrderLine [dir=back, arrowtail=diamond, arrowsize=1.4, taillabel="1  ", headlabel="0..*", xlabel=" owns ", labeldistance=2.5];
+}
